@@ -17,4 +17,4 @@ jobs:
           with:
             toit-version: 'v2.0.0-alpha.120'
 
-        - run: find tests -type f \( -name '*_test.toit' -o -name '*.test.toit' \) -exec toit.run {} \;
+        - run: make test
