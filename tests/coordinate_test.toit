@@ -2,71 +2,71 @@ import coordinate show Coordinate
 import fixed-point show FixedPoint
 
 main:
-    testdistanceToCoord
-    testdistanceToCoord1km
-    testdistanceToCoord100km
-    testdistanceToCoordNegativeCoords
-    testInCircle
-    testInPolygon
-    testComplexPolygon
-    testdistanceToLine
-    testBearingTo
-    testdistanceToPolygonEdge
-    testdistanceToPolygon
+    test-distance-to-coord
+    test-distance-to-coord-1km
+    test-distance-to-coord-100km
+    test-distance-to-coord-negative-coords
+    test-in-circle
+    test-in-polygon
+    test-complex-polygon
+    test-distance-to-line
+    test-bearing-to
+    test-distance-to-polygon-edge
+    test-distance-to-polygon
 
-testdistanceToCoord:
+test-distance-to-coord:
     coord1 := Coordinate 0.0 0.0
     coord2 := Coordinate 0.0000899 0.0
-    distance := coord1.distanceToCoord coord2
+    distance := coord1.distance-to-coord coord2
     if distance != 9.996423905345830363:
         print "❌ Expected 9.996423905345830363, got $distance"
     else:
-        print "✅ testdistanceToCoord passed"
+        print "✅ test-distance-to-coord passed"
 
-testdistanceToCoord1km:
+test-distance-to-coord-1km:
     coord1 := Coordinate 0.0 0.0
     coord2 := Coordinate 0.00899 0.0
-    distance := coord1.distanceToCoord coord2
+    distance := coord1.distance-to-coord coord2
     if distance != 999.64239053458311446:
         print "❌ Expected 999.64239053458311446, got $distance"
     else:
-        print "✅ testdistanceToCoord1km passed"
+        print "✅ test-distance-to-coord-1km passed"
 
-testdistanceToCoord100km:
+test-distance-to-coord-100km:
     coord1 := Coordinate 0.0 0.0
     coord2 := Coordinate 0.899 0.0
-    distance := coord1.distanceToCoord coord2
+    distance := coord1.distance-to-coord coord2
     if distance != 99964.239053458311446:
         print "❌ Expected 99964.239053458311446, got $distance"
     else:
-        print "✅ testdistanceToCoord100km passed"
+        print "✅ test-distance-to-coord-100km passed"
 
-testdistanceToCoordNegativeCoords:
+test-distance-to-coord-negative-coords:
     coord1 := Coordinate 0.0 0.0
     coord2 := Coordinate -0.00899 0.0
-    distance := coord1.distanceToCoord coord2
+    distance := coord1.distance-to-coord coord2
     if distance != 999.64239053458311446:
         print "❌ Expected 999.64239053458311446, got $distance"
     else:
-        print "✅ testdistanceToCoordNegativeCoords passed"
+        print "✅ test-distance-to-coord-negative-coords passed"
 
-testInCircle:
+test-in-circle:
     center := Coordinate 0.0 0.0
     insideCoord := Coordinate 0.0000899 0.0
     outsideCoord := Coordinate 0.01 0.0
     radius := 10.0
 
-    if not (insideCoord.inCircle center radius):
+    if not (insideCoord.in-circle center radius):
         print "❌ Expected insideCoord to be inside the circle"
     else:
-        print "✅ testInCircle (inside) passed"
+        print "✅ test-in-circle (inside) passed"
 
-    if outsideCoord.inCircle center radius:
+    if outsideCoord.in-circle center radius:
         print "❌ Expected outsideCoord to be outside the circle"
     else:
-        print "✅ testInCircle (outside) passed"
+        print "✅ test-in-circle (outside) passed"
 
-testInPolygon:
+test-in-polygon:
     boundary := [
       Coordinate 0.0 0.0,
       Coordinate 0.0 1.0,
@@ -76,17 +76,17 @@ testInPolygon:
     insideCoord := Coordinate 0.5 0.5
     outsideCoord := Coordinate 1.5 1.5
 
-    if not (insideCoord.inPolygon boundary):
+    if not (insideCoord.in-polygon boundary):
         print "❌ Expected insideCoord to be inside the polygon"
     else:
-        print "✅ testInPolygon (inside) passed"
+        print "✅ test-in-polygon (inside) passed"
 
-    if outsideCoord.inPolygon boundary:
+    if outsideCoord.in-polygon boundary:
         print "❌ Expected outsideCoord to be outside the polygon"
     else:
-        print "✅ testInPolygon (outside) passed"
+        print "✅ test-in-polygon (outside) passed"
 
-testComplexPolygon:
+test-complex-polygon:
     // https://www.keene.edu/campus/maps/tool/?coordinates=-72.5125122%2C%2042.8548264%0A-72.3298645%2C%2042.8646412%0A-72.4685669%2C%2042.9109261%0A-72.2814560%2C%2042.9104232%0A-72.3563004%2C%2042.9677285%0A-72.1933937%2C%2042.9184693%0A-72.2905540%2C%2043.0171994%0A-72.4927711%2C%2042.9910878%0A-72.5130272%2C%2042.8540713
     boundary := [
       Coordinate 42.8548264 -72.5125122,
@@ -111,142 +111,142 @@ testComplexPolygon:
     ]
 
     insideCoords.do: |coord|
-      if not (coord.inPolygon boundary):
+      if not (coord.in-polygon boundary):
         print "❌ Expected $coord to be inside the polygon"
       else:
-        print "✅ testComplexPolygon (inside) passed"
+        print "✅ test-complex-polygon (inside) passed"
 
     outsideCoords.do: |coord|
-      if coord.inPolygon boundary:
+      if coord.in-polygon boundary:
         print "❌ Expected $coord to be outside the polygon"
       else:
-        print "✅ testComplexPolygon (outside) passed"
+        print "✅ test-complex-polygon (outside) passed"
 
-testdistanceToLine:
-  testdistanceToLineOnP1
-  testdistanceToLineOnP2
-  testdistanceToLineOn10mFromP1
-  testdistanceToLineOn10mFromP2
-  testdistanceToLine10mFromMiddle
-  testdistanceToLine10mFromMiddleOtherSide
+test-distance-to-line:
+  test-distance-to-line-on-p1
+  test-distance-to-line-on-p2
+  test-distance-to-line-on-10m-from-p1
+  test-distance-to-line-on-10m-from-p2
+  test-distance-to-line-10m-from-middle
+  test-distance-to-line-10m-from-middle-other-side
 
-testdistanceToLineOnP1:
+test-distance-to-line-on-p1:
   p1 := Coordinate 0.0 0.0
   p2 := Coordinate 0.1 0.0
   coord := Coordinate 0.1 0.0 // On the line, at the point 2
-  distance := coord.distanceToLine p1 p2
+  distance := coord.distance-to-line p1 p2
   if distance != 0.0:
-      print "❌ testdistanceToLineOnP1 Expected 0.0, got $distance"
+      print "❌ test-distance-to-line-on-p1 Expected 0.0, got $distance"
   else:
-      print "✅ testdistanceToLineOnP1 passed"
+      print "✅ test-distance-to-line-on-p1 passed"
 
-testdistanceToLineOnP2:
+test-distance-to-line-on-p2:
   p1 := Coordinate 0.0 0.0
   p2 := Coordinate 0.1 0.0
   coord := Coordinate 0.0 0.0 // On the line, at the point 1
-  distance := coord.distanceToLine p1 p2
+  distance := coord.distance-to-line p1 p2
   if distance != 0.0:
-      print "❌ testdistanceToLineOnP2 Expected 0.0, got $distance"
+      print "❌ test-distance-to-line-on-p2 Expected 0.0, got $distance"
   else:
-      print "✅ testdistanceToLineOnP2 passed"
+      print "✅ test-distance-to-line-on-p2 passed"
 
-testdistanceToLineOn10mFromP1:
+test-distance-to-line-on-10m-from-p1:
   p1 := Coordinate 0.0 0.0
   p2 := Coordinate 0.1 0.0
   coord := Coordinate 0.1 0.0000899 // 10m from the line, at the point 2
-  distance := coord.distanceToLine p1 p2
+  distance := coord.distance-to-line p1 p2
   distanceFixed := (FixedPoint distance --decimals=2)
   if distanceFixed != 10.0:
-      print "❌ testdistanceToLineOn10mFromP1 Expected 10.0, got $distanceFixed"
+      print "❌ test-distance-to-line-on-10m-from-p1 Expected 10.0, got $distanceFixed"
   else:
-      print "✅ testdistanceToLineOn10mFromP1 passed"
+      print "✅ test-distance-to-line-on-10m-from-p1 passed"
 
-testdistanceToLineOn10mFromP2:
+test-distance-to-line-on-10m-from-p2:
   p1 := Coordinate 0.0 0.0
   p2 := Coordinate 0.1 0.0
   coord := Coordinate 0.0 0.0000899 // 10m from the line, at the point 1
-  distance := coord.distanceToLine p1 p2
+  distance := coord.distance-to-line p1 p2
   distanceFixed := (FixedPoint distance --decimals=2)
   if distanceFixed != 10.0:
-      print "❌ testdistanceToLineOn10mFromP2 Expected 10.0, got $distanceFixed"
+      print "❌ test-distance-to-line-on-10m-from-p2 Expected 10.0, got $distanceFixed"
   else:
-      print "✅ testdistanceToLineOn10mFromP2 passed"
+      print "✅ test-distance-to-line-on-10m-from-p2 passed"
 
-testdistanceToLine10mFromMiddle:
+test-distance-to-line-10m-from-middle:
   p1 := Coordinate 0.0 0.0
   p2 := Coordinate 1.0 0.0
   coord := Coordinate 0.5 0.0000899 // 10m from the line, in the middle
-  distance := coord.distanceToLine p1 p2
+  distance := coord.distance-to-line p1 p2
   distanceFixed := (FixedPoint distance --decimals=0)
   if distanceFixed != 10.0:
-      print "❌ testdistanceToLine10mFromMiddle Expected 10.0, got $distanceFixed"
+      print "❌ test-distance-to-line-10m-from-middle Expected 10.0, got $distanceFixed"
   else:
-      print "✅ testdistanceToLine10mFromMiddle passed"
+      print "✅ test-distance-to-line-10m-from-middle passed"
 
-testdistanceToLine10mFromMiddleOtherSide:
+test-distance-to-line-10m-from-middle-other-side:
   p1 := Coordinate 0.0 0.0
   p2 := Coordinate 1.0 0.0
   coord := Coordinate 0.5 -0.0000899 // 10m from the line, in the middle
-  distance := coord.distanceToLine p1 p2
+  distance := coord.distance-to-line p1 p2
   distanceFixed := (FixedPoint distance --decimals=0)
   if distanceFixed != 10.0:
-      print "❌ testdistanceToLine10mFromMiddleOtherSide Expected 10.0, got $distanceFixed"
+      print "❌ test-distance-to-line-10m-from-middle-other-side Expected 10.0, got $distanceFixed"
   else:
-      print "✅ testdistanceToLine10mFromMiddleOtherSide passed"
+      print "✅ test-distance-to-line-10m-from-middle-other-side passed"
 
-testBearingTo:
-    testBearingToEast
-    testBearingToNorth
-    testBearingToWest
-    testBearingToSouth
-    testBearingTo45
+test-bearing-to:
+    test-bearing-to-east
+    test-bearing-to-north
+    test-bearing-to-west
+    test-bearing-to-south
+    test-bearing-to-45
 
-testBearingToEast:
+test-bearing-to-east:
     coord1 := Coordinate 0.0 0.0
     coord2 := Coordinate 0.0 1.0
-    bearing := coord1.bearingTo coord2
+    bearing := coord1.bearing-to coord2
     if bearing != 90.0:
         print "❌ Expected 90.0, got $bearing"
     else:
-        print "✅ testBearingToEast passed"
+        print "✅ test-bearing-to-east passed"
 
-testBearingToNorth:
+test-bearing-to-north:
     coord1 := Coordinate 0.0 0.0
     coord3 := Coordinate 1.0 0.0
-    bearing := coord1.bearingTo coord3
+    bearing := coord1.bearing-to coord3
     if bearing != 0.0:
         print "❌ Expected 0.0, got $bearing"
     else:
-        print "✅ testBearingToNorth passed"
+        print "✅ test-bearing-to-north passed"
 
-testBearingToWest:
+test-bearing-to-west:
     coord1 := Coordinate 0.0 0.0
     coord4 := Coordinate 0.0 -1.0
-    bearing := coord1.bearingTo coord4
+    bearing := coord1.bearing-to coord4
     if bearing != -90.0:
         print "❌ Expected -90.0, got $bearing"
     else:
-        print "✅ testBearingToWest passed"
+        print "✅ test-bearing-to-west passed"
 
-testBearingToSouth:
+test-bearing-to-south:
     coord1 := Coordinate 0.0 0.0
     coord5 := Coordinate -1.0 0.0
-    bearing := coord1.bearingTo coord5
+    bearing := coord1.bearing-to coord5
     if bearing != 180.0:
         print "❌ Expected 180.0, got $bearing"
     else:
-        print "✅ testBearingToSouth passed"
+        print "✅ test-bearing-to-south passed"
 
-testBearingTo45:
+test-bearing-to-45:
     coord1 := Coordinate 0.0 0.0
     coord6 := Coordinate 1.0 1.0
-    bearing := FixedPoint (coord1.bearingTo coord6) --decimals=0
+    bearing := FixedPoint (coord1.bearing-to coord6) --decimals=0
     if bearing != 45.0:
         print "❌ Expected 45.0, got $bearing"
     else:
-        print "✅ testBearingTo45 passed"
+        print "✅ test-bearing-to-45 passed"
 
-testdistanceToPolygonEdge:
+test-distance-to-polygon-edge:
   boundary := [
     Coordinate 0.0 0.0,
     Coordinate 0.0 1.0,
@@ -256,21 +256,21 @@ testdistanceToPolygonEdge:
   insideCoord := Coordinate 0.5 (1.0 - 0.0000899) // 10m from the edge, half way up
   outsideCoord := Coordinate 0.5 1.0000899 // 10m from the edge, half way up
 
-  distanceInside := insideCoord.distanceToPolygonEdge boundary
+  distanceInside := insideCoord.distance-to-polygon-edge boundary
   distanceInsideFixed := (FixedPoint distanceInside --decimals=2)
   if distanceInsideFixed != 10:
-      print "❌ testdistanceToPolygonEdge Expected 10, got $distanceInsideFixed"
+      print "❌ test-distance-to-polygon-edge Expected 10, got $distanceInsideFixed"
   else:
-      print "✅ testdistanceToPolygonEdge (inside) passed"
+      print "✅ test-distance-to-polygon-edge (inside) passed"
   
-  distanceOutside := outsideCoord.distanceToPolygonEdge boundary
+  distanceOutside := outsideCoord.distance-to-polygon-edge boundary
   distanceOutsideFixed := (FixedPoint distanceOutside --decimals=2)
   if distanceOutsideFixed != 10:
-      print "❌ testdistanceToPolygonEdge Expected 10, got $distanceOutsideFixed"
+      print "❌ test-distance-to-polygon-edge Expected 10, got $distanceOutsideFixed"
   else:
-      print "✅ testdistanceToPolygonEdge (outside) passed"
+      print "✅ test-distance-to-polygon-edge (outside) passed"
 
-testdistanceToPolygon:
+test-distance-to-polygon:
   boundary := [
     Coordinate 0.0 0.0,
     Coordinate 0.0 1.0,
@@ -280,15 +280,15 @@ testdistanceToPolygon:
   insideCoord := Coordinate 0.5 0.5 // middle
   outsideCoord := Coordinate 0.5 1.0000899 // 10m from the edge, half way up
 
-  distanceInside := insideCoord.distanceToPolygon boundary
+  distanceInside := insideCoord.distance-to-polygon boundary
   if distanceInside != 0.0:
-    print "❌ testdistanceToPolygon Expected 0.0, got $distanceInside"
+    print "❌ test-distance-to-polygon Expected 0.0, got $distanceInside"
   else:
-    print "✅ testdistanceToPolygon (inside) passed"
+    print "✅ test-distance-to-polygon (inside) passed"
 
-  distanceOutside := outsideCoord.distanceToPolygon boundary
+  distanceOutside := outsideCoord.distance-to-polygon boundary
   distanceOutsideFixed := (FixedPoint distanceOutside --decimals=2)
   if distanceOutsideFixed != 10:
-    print "❌ testdistanceToPolygon Expected 10, got $distanceOutsideFixed"
+    print "❌ test-distance-to-polygon Expected 10, got $distanceOutsideFixed"
   else:
-    print "✅ testdistanceToPolygon (outside) passed"
+    print "✅ test-distance-to-polygon (outside) passed"

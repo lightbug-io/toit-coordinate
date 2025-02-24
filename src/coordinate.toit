@@ -23,7 +23,7 @@ class Coordinate:
     Assumes the Earth is a perfect sphere.
     Returns distance in meters.
     */
-    distanceToCoord other/Coordinate -> float:
+    distance-to-coord other/Coordinate -> float:
       phi1 := lat * math.PI / 180 // Convert degrees to radians
       phi2 := other.lat * math.PI / 180
       dphi := (other.lat - lat) * math.PI / 180
@@ -38,15 +38,15 @@ class Coordinate:
     Checks if the current coordinate is within a given radius of a center coordinate.
     Uses the great-circle distance for calculation.
     */
-    inCircle center/Coordinate radius/float -> bool:
-      return (distanceToCoord center) <= radius
+    in-circle center/Coordinate radius/float -> bool:
+      return (distance-to-coord center) <= radius
     
     /*
     Determines if the current coordinate is inside a polygon defined by a list of coordinates.
     Uses the ray-casting algorithm, assuming a simple, non-self-intersecting polygon.
     The polygon's edges should be defined in order (clockwise or counterclockwise).
     */
-    inPolygon boundary/List -> bool:
+    in-polygon boundary/List -> bool:
       x := lon
       y := lat
       n := boundary.size
@@ -72,23 +72,23 @@ class Coordinate:
     Computes the perpendicular distance from the current coordinate to a line segment (p1, p2).
     Uses the great-circle distance and bearings to estimate this distance.
     */
-    distanceToLine p1/Coordinate p2/Coordinate -> float:
-      ax := distanceToCoord p1
-      alpha := (abs ((p1.bearingTo p2) - (p1.bearingTo this))) / 180 * math.PI // Convert degrees to radians
+    distance-to-line p1/Coordinate p2/Coordinate -> float:
+      ax := distance-to-coord p1
+      alpha := (abs ((p1.bearing-to p2) - (p1.bearing-to this))) / 180 * math.PI // Convert degrees to radians
       return abs (math.sin alpha) * ax // Compute perpendicular distance
 
     /*
     Computes the shortest distance from the current coordinate to any edge of a polygon.
-    Uses the `distanceToLine` method to measure distance to each edge.
+    Uses the `distance-to-line` method to measure distance to each edge.
     */
-    distanceToPolygonEdge boundary/List -> float:
+    distance-to-polygon-edge boundary/List -> float:
       minDistance/float := INFINITY_DISTANCE
       n := boundary.size
       
       for i := 0; i < n; i += 1:
         p1 := boundary[i]
         p2 := boundary[(i + 1) % n] // Wraps around to connect last and first vertex
-        distance := distanceToLine p1 p2
+        distance := distance-to-line p1 p2
         
         if (distance < minDistance) or (minDistance == INFINITY_DISTANCE):
           minDistance = distance
@@ -99,16 +99,16 @@ class Coordinate:
     Computes the shortest distance from the current coordinate to a polygon.
     If inside, returns 0. Otherwise, returns the shortest distance to an edge.
     */
-    distanceToPolygon boundary/List -> float:
-      if inPolygon boundary:
+    distance-to-polygon boundary/List -> float:
+      if in-polygon boundary:
         return 0.0
-      return distanceToPolygonEdge boundary
+      return distance-to-polygon-edge boundary
 
     /*
     Computes the initial bearing (forward azimuth) from the current coordinate to another coordinate.
     Assumes a spherical Earth and uses trigonometry to compute the bearing in degrees.
     */
-    bearingTo other/Coordinate -> float:
+    bearing-to other/Coordinate -> float:
       dLon := (other.lon - lon) * math.PI / 180
       lat1 := lat * math.PI / 180
       lat2 := other.lat * math.PI / 180
