@@ -1,0 +1,5 @@
+prefixes:
+  coordinate: ..
+packages:
+  ..:
+    path: ..
