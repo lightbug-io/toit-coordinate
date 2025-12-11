@@ -4,7 +4,10 @@ test:
 		find tests -type d -name '.packages' -prune -o -type f \( -name '*_test.toit' -o -name '*.test.toit' \) -exec sh -c 'echo Running {} && jag run --device host {}' \; ; \
 	elif command -v toit.run >/dev/null 2>&1; then \
 		find tests -type d -name '.packages' -prune -o -type f \( -name '*_test.toit' -o -name '*.test.toit' \) -exec sh -c 'echo Running {} && toit.run {}' \; ; \
+	elif command -v toit >/dev/null 2>&1; then \
+		# Use the 'toit' executable with the 'run' subcommand when available \
+		find tests -type d -name '.packages' -prune -o -type f \( -name '*_test.toit' -o -name '*.test.toit' \) -exec sh -c 'echo Running {} && toit run {}' \; ; \
 	else \
-		echo "Error: Neither 'jag' nor 'toit.run' found in PATH"; \
+		echo "Error: Neither 'jag', 'toit.run' nor 'toit' (with run subcommand) found in PATH"; \
 		exit 1; \
 	fi
