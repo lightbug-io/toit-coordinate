@@ -2,10 +2,21 @@ name: Tests
 
 on:
     push:
+        # PR events validate feature branches without a duplicate push run.
+        branches:
+            - main
+        tags:
+            - '**'
     pull_request:
         branches:
             - 'main'
         
+# Only superseded runs for the same pull request may cancel each other.
+# Give push, tag, and manual runs unique groups so they remain independent.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event.pull_request.number || github.run_id }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
     test:
         name: Tests
